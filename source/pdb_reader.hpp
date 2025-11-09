@@ -34,7 +34,7 @@ namespace blink
 	struct path_hash
 	{
 		std::size_t operator()(const std::filesystem::path &path) const {
-			std::string str(path.u8string());
+			std::string str((const char*)path.u8string().c_str());
 			for (std::size_t index = 0; index < str.size(); ++index) {
 				str[index] |= 0x20; // fast tolower()
 			}
@@ -45,7 +45,7 @@ namespace blink
 	struct path_comp
 	{
 		bool operator() (const std::filesystem::path& lhs, const std::filesystem::path& rhs) const {
-			return _stricmp(lhs.u8string().c_str(), rhs.u8string().c_str()) == 0;
+			return _stricmp((const char*)lhs.u8string().c_str(), (const char*)rhs.u8string().c_str()) == 0;
 		}
 	};
 
